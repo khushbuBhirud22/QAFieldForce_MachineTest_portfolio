@@ -1,0 +1,351 @@
+{
+  "info": {
+    "_postman_id": "7fd9f0f4-433b-403e-8fd6-12509cc62a6b",
+    "name": "My Collection",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48065440",
+    "_collection_link": "https://go.postman.co/collection/48065440-7fd9f0f4-433b-403e-8fd6-12509cc62a6b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "Valid login Test",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 OK\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Extract and Save Token\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    // Use data.UserId or top-level userId as the authentication token",
+              "    var token = jsonData.data ? jsonData.data.UserId : jsonData.userId;",
+              "    pm.environment.set(\"token\", token.toString());",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"username\": \"bhirudkhushbu67@gmail.com\",\n    \"password\":\"22402240\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://test.fieldforceconnect.com/api/account/authenticate/",
+          "protocol": "https",
+          "host": [
+            "test",
+            "fieldforceconnect",
+            "com"
+          ],
+          "path": [
+            "api",
+            "account",
+            "authenticate",
+            ""
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    },
+    {
+      "name": "Invalid login Test",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//pm.test(\"Successful POST request\", function () {",
+              "  //  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "//});",
+              "pm.test(\"Status code is not 200 or returns failure\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 401]);",
+              "});",
+              "",
+              "pm.test(\"Response validates invalid login\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    // Checks for either success: false or an error message",
+              "    if (jsonData.hasOwnProperty(\"success\")) {",
+              "        pm.expect(jsonData.success).to.eql(false);",
+              "    } else {",
+              "        pm.expect(jsonData.Status).to.not.eql(200);",
+              "    }",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"username\": \"bhirudkhushbu67@gmail.com\",\n    \"password\":\"Wrong_password_224\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://test.fieldforceconnect.com/api/account/authenticate/",
+          "protocol": "https",
+          "host": [
+            "test",
+            "fieldforceconnect",
+            "com"
+          ],
+          "path": [
+            "api",
+            "account",
+            "authenticate",
+            ""
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 201\", function () {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Customer Created Successfully\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    if (jsonData.hasOwnProperty(\"success\")) {\r",
+              "        pm.expect(jsonData.success).to.eql(true);\r",
+              "    }\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Cookie",
+            "value": "DeviceId=25341634-ee5e-4948-816c-22fb65bafc89",
+            "type": "text"
+          },
+          {
+            "key": "DeviceId",
+            "value": "25341634-ee5e-4948-816c-22fb65bafc89",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Khushbu Bhirud Test Customer\",\r\n  \"mobileNo\": \"9876543210\",\r\n  \"email\": \"testcustomer@example.com\",\r\n  \"contactPersonName\": \"Khushbu Bhirud\",\r\n  \"address\": \"Street 101, Tech Park\",\r\n  \"cityName\": \"Mumbai\",\r\n  \"stateName\": \"Maharashtra\",\r\n  \"pincode\": \"400001\",\r\n  \"status\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://test.fieldforceconnect.com/api/customer/add",
+          "protocol": "https",
+          "host": [
+            "test",
+            "fieldforceconnect",
+            "com"
+          ],
+          "path": [
+            "api",
+            "customer",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "add customer",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 201\", function () {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Customer Created Successfully\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    if (jsonData.hasOwnProperty(\"success\")) {\r",
+              "        pm.expect(jsonData.success).to.eql(true);\r",
+              "    }\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "authorization",
+            "value": "{{basic_auth_18wk}}"
+          },
+          {
+            "key": "priority",
+            "value": "u=1, i"
+          },
+          {
+            "key": "referer",
+            "value": "https://test.fieldforceconnect.com/customers"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\""
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?1"
+          },
+          {
+            "key": "sec-ch-ua-platform",
+            "value": "\"Android\""
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Mobile Safari/537.36"
+          },
+          {
+            "key": "Cookie",
+            "value": "DeviceId=25341634-ee5e-4948-816c-22fb65bafc89; currentUser={\"userId\":1880,\"CompanyDetail\":{\"GroupId\":747,\"CompanyId\":1481,\"GroupName\":\"Default\",\"CompanyName\":\".\",\"Timezone\":\"India Standard Time\",\"CountryName\":\"\",\"CurrencyName\":\"\",\"CurrencySymbol\":\"à¤°à¥\",\"CurrencyId\":1,\"CompanyLogo\":\"\",\"CompanyLogoModifiedDate\":null,\"TrialStartDate\":\"09-03-2026 09:26:33 PM\",\"TrialEndDate\":\"05-30-2029 09:26:33 PM\",\"SubscriptionStatus\":\"Live\",\"DaysRemainig\":997,\"FinancialDate\":null,\"IsDistributorPortalEnabled\":false,\"IsWhatsAppEnabled\":false,\"IsLeadApproval\":false,\"IsBirthdayWish\":false,\"IsAnniversaryWish\":false,\"IsTeam\":false,\"IsSendEmailOnContractEnd\":false,\"IsDeactivateOnContractEnd\":false,\"DeactivateAfterDays\":1,\"IsEmployeeOnboard\":false,\"IsUserWishes\":false,\"IsSendPermissionModifiedMail\":false,\"PermissionModifiedMailRecipients\":\"\",\"IsCustomerAuditLogs\":false},\"roles\":{\"CompanyOwner\":true,\"GroupOwner\":true,\"GroupMember\":true,\"ShopDummy\":true,\"IsStarted\":true,\"FreezeDashboard\":false,\"IsTaskAdmin\":true,\"GCAdmin\":true,\"CRMAdmin\":true,\"ExpenseAdmin\":false,\"Reseller\":false,\"Manager\":false},\"accessToken\":\"{{basic_auth_18wk}}\",\"userDetail\":{\"Status\":200,\"Message\":\"Success\",\"data\":{\"UserId\":1880,\"Name\":\".\",\"MobileNo\":\"8080143628\",\"CountryCode\":\"+91\",\"ContactNo\":\"-\",\"Email\":\"bhirudkhushbu67@gmail.com\",\"Gender\":\"-\",\"Dob\":\"01/01/1900\",\"Country\":\"India\",\"State\":\"NA\",\"City\":\"NA\",\"StreetAddress\":\"NA\",\"ZipCode\":0,\"IsActive\":true,\"CreatedDate\":\"2026-09-03T15:56:33.747\",\"ModifiedDate\":\"2026-09-03T15:56:33.747\",\"UserImage\":\"NA\",\"CityId\":0,\"StateId\":0,\"CountryId\":0,\"AccessWebLogin\":true}}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"LeadName\": \"abc\",\r\n  \"mobileNo\": \"9876543210\",\r\n  \"email\": \"testcustomer@example.com\",\r\n  \"contactPersonName\": \"xyz\",\r\n  \"address\": \"Street 101, Tech Park\",\r\n  \"cityName\": \"Mumbai\",\r\n  \"stateName\": \"Maharashtra\",\r\n  \"pincode\": \"400001\",\r\n  \"status\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://test.fieldforceconnect.com/api/CRM/Lead",
+          "protocol": "https",
+          "host": [
+            "test",
+            "fieldforceconnect",
+            "com"
+          ],
+          "path": [
+            "api",
+            "CRM",
+            "Lead"
+          ]
+        },
+        "description": "Generated from cURL: curl --url 'https://test.fieldforceconnect.com/api/CRM/CRMSetting' \\\r\n  -H 'accept: application/json, text/plain, */*' \\\r\n  -H 'accept-language: en-US,en;q=0.9' \\\r\n  -H 'authorization: {{basic_auth_18wk}}' \\\r\n  -b $'DeviceId=25341634-ee5e-4948-816c-22fb65bafc89; currentUser={\"userId\":1880,\"CompanyDetail\":{\"GroupId\":747,\"CompanyId\":1481,\"GroupName\":\"Default\",\"CompanyName\":\".\",\"Timezone\":\"India Standard Time\",\"CountryName\":\"\",\"CurrencyName\":\"\",\"CurrencySymbol\":\"à¤°à¥\\u0081\",\"CurrencyId\":1,\"CompanyLogo\":\"\",\"CompanyLogoModifiedDate\":null,\"TrialStartDate\":\"09-03-2026 09:26:33 PM\",\"TrialEndDate\":\"05-30-2029 09:26:33 PM\",\"SubscriptionStatus\":\"Live\",\"DaysRemainig\":997,\"FinancialDate\":null,\"IsDistributorPortalEnabled\":false,\"IsWhatsAppEnabled\":false,\"IsLeadApproval\":false,\"IsBirthdayWish\":false,\"IsAnniversaryWish\":false,\"IsTeam\":false,\"IsSendEmailOnContractEnd\":false,\"IsDeactivateOnContractEnd\":false,\"DeactivateAfterDays\":1,\"IsEmployeeOnboard\":false,\"IsUserWishes\":false,\"IsSendPermissionModifiedMail\":false,\"PermissionModifiedMailRecipients\":\"\",\"IsCustomerAuditLogs\":false},\"roles\":{\"CompanyOwner\":true,\"GroupOwner\":true,\"GroupMember\":true,\"ShopDummy\":true,\"IsStarted\":true,\"FreezeDashboard\":false,\"IsTaskAdmin\":true,\"GCAdmin\":true,\"CRMAdmin\":true,\"ExpenseAdmin\":false,\"Reseller\":false,\"Manager\":false},\"accessToken\":\"{{basic_auth_18wk}}\",\"userDetail\":{\"Status\":200,\"Message\":\"Success\",\"data\":{\"UserId\":1880,\"Name\":\".\",\"MobileNo\":\"8080143628\",\"CountryCode\":\"+91\",\"ContactNo\":\"-\",\"Email\":\"bhirudkhushbu67@gmail.com\",\"Gender\":\"-\",\"Dob\":\"01/01/1900\",\"Country\":\"India\",\"State\":\"NA\",\"City\":\"NA\",\"StreetAddress\":\"NA\",\"ZipCode\":0,\"IsActive\":true,\"CreatedDate\":\"2026-09-03T15:56:33.747\",\"ModifiedDate\":\"2026-09-03T15:56:33.747\",\"UserImage\":\"NA\",\"CityId\":0,\"StateId\":0,\"CountryId\":0,\"AccessWebLogin\":true}}}' \\\r\n  -H 'priority: u=1, i' \\\r\n  -H 'referer: https://test.fieldforceconnect.com/customers' \\\r\n  -H 'sec-ch-ua: \"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"' \\\r\n  -H 'sec-ch-ua-mobile: ?1' \\\r\n  -H 'sec-ch-ua-platform: \"Android\"' \\\r\n  -H 'sec-fetch-dest: empty' \\\r\n  -H 'sec-fetch-mode: cors' \\\r\n  -H 'sec-fetch-site: same-origin' \\\r\n  -H 'user-agent: Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Mobile Safari/537.36'"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "basic_auth_18wk",
+      "secret": true
+    }
+  ]
+}
